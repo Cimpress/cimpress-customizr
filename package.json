@@ -1,6 +1,6 @@
 {
   "name": "cimpress-customizr",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A thin client for Cimpress Customizr service",
   "main": "./lib/index.js",
   "files": [
@@ -25,9 +25,6 @@
     "cimpress",
     "customizr"
   ],
-  "dependencie": {
-    "axios": "^0.18.0"
-  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
@@ -35,6 +32,7 @@
     "eslint-config-google": "^0.9.1"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "country-language": "^0.1.7",
     "regenerator": "^0.13.2",
     "regenerator-runtime": "^0.12.1"
