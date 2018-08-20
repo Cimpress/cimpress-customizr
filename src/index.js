@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime';
 import CustomizrClient from './CustomizrClient';
 
 import {

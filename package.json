@@ -1,6 +1,6 @@
 {
   "name": "cimpress-customizr",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A thin client for Cimpress Customizr service",
   "main": "./lib/index.js",
   "files": [
