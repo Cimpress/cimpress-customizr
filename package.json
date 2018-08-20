@@ -2,20 +2,36 @@
   "name": "cimpress-customizr",
   "version": "0.0.1",
   "description": "A thin client for Cimpress Customizr service",
-  "main": "index.js",
+  "main": "./lib/index.js",
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "code-check": "eslint --ext .js --ext .jsx src",
-    "build": "node node_modules/grunt-cli/bin/grunt webpack && babel src -d lib --copy-files"
+    "build": "node ./node_modules/babel-cli/bin/babel.js src -d lib --copy-files"
   },
   "author": "TrdelnikSquad@cimpress.com",
-  "license": "ISC",
-  "dependencies": {
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cimpress/cimpress-customizr.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Cimpress/cimpress-customizr/issues"
+  },
+  "homepage": "https://github.com/Cimpress/cimpress-customizr#readme",
+  "keywords": [
+    "cimpress",
+    "customizr"
+  ],
+  "dependencie": {
     "axios": "^0.18.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "eslint": "^5.4.0"
+    "eslint": "^5.4.0",
+    "eslint-config-google": "^0.9.1"
   }
 }
