@@ -31,12 +31,25 @@ Using the client
 You can also use directly any of the following convenience functions:
 
     import {getMcpSettings, putMcpSettings,
-        getMcpLanguage, putMcpLanguage,
+        getPreferredMcpLanguages, setPreferredMcpLanguage,
         getMcpRegionalSettings, putMcpRegionalSettings} from 'cimpress-customizr'
         
-    getLanguage(accessToken).then( language => ... )
+    getPreferredMcpLanguages(accessToken).then( languageArray => {
+        /* 
+        
+        languageArray = [language, ... ]
+        
+        language = {
+             lang: 'en' 
+             iso639_1: 'en',
+             iso639_2: 'eng',
+             iso639_3: 'eng'
+         }
+        */
     
-    putLanguage(accessToken, newLanguage).then( ... )
+    } )
+    
+    setPreferredMcpLanguage(accessToken, newLanguage).then( ... )
 
     
 

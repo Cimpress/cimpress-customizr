@@ -1,6 +1,6 @@
 {
   "name": "cimpress-customizr",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "A thin client for Cimpress Customizr service",
   "main": "./lib/index.js",
   "files": [
@@ -35,6 +35,7 @@
     "eslint-config-google": "^0.9.1"
   },
   "dependencies": {
+    "country-language": "^0.1.7",
     "regenerator": "^0.13.2",
     "regenerator-runtime": "^0.12.1"
   }

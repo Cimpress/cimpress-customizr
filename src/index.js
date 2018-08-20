@@ -4,18 +4,18 @@ import CustomizrClient from './CustomizrClient';
 import {
     getMcpSettings,
     putMcpSettings,
-    getMcpLanguage,
-    putMcpLanguage,
+    getPreferredMcpLanguages,
+    setPreferredMcpLanguage,
     getMcpRegionalSettings,
     putMcpRegionalSettings,
-} from './helpers';
+} from './mcpHelpers';
 
 export {
     CustomizrClient,
     getMcpSettings,
     putMcpSettings,
-    getMcpLanguage,
-    putMcpLanguage,
+    getPreferredMcpLanguages,
+    setPreferredMcpLanguage,
     getMcpRegionalSettings,
     putMcpRegionalSettings,
 };
