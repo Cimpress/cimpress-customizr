@@ -76,7 +76,6 @@ async function getPreferredMcpTimezone(accessToken) {
 }
 
 async function setPreferredMcpTimezone(accessToken, timezone) {
-
     let tz = validTimezones.find((t) => t === timezone);
     if (!tz) {
         throw new Error('Provided timezone is not valid. Please pass valid IANA timezone identifier, eg. Europe/Amsterdam');
