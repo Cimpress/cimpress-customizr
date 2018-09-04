@@ -1,6 +1,6 @@
 {
   "name": "cimpress-customizr",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A thin client for Cimpress Customizr service",
   "main": "./lib/index.js",
   "files": [
@@ -34,6 +34,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "country-language": "^0.1.7",
+    "iana-tz-data": "^2017.1.0",
     "regenerator": "^0.13.2",
     "regenerator-runtime": "^0.12.1"
   }

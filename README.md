@@ -30,9 +30,20 @@ Using the client
     
 You can also use directly any of the following convenience functions:
 
-    import {getMcpSettings, putMcpSettings,
-        getPreferredMcpLanguages, setPreferredMcpLanguage,
-        getMcpRegionalSettings, putMcpRegionalSettings} from 'cimpress-customizr'
+    import {
+        getMcpSettings, 
+        putMcpSettings,
+        
+        getPreferredMcpLanguages, 
+        setPreferredMcpLanguage,
+        
+        getPreferredMcpTimezone,
+        setPreferredMcpTimezone
+        
+        getMcpRegionalSettings, 
+        putMcpRegionalSettings
+        
+        } from 'cimpress-customizr'
         
     getPreferredMcpLanguages(accessToken).then( languageArray => {
         /* 

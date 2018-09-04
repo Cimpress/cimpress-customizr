@@ -1,8 +1,17 @@
 import CustomizrClient from './CustomizrClient';
 import countryLanguage from 'country-language';
+import IANATimezoneData from 'iana-tz-data';
 
 const mcpCustomizr = new CustomizrClient({
     resource: 'mcp-generic-ui-settings',
+});
+
+const validTimezones = [];
+const regions = Object.keys(IANATimezoneData.zoneData);
+regions.forEach((region) => {
+    Object.keys(IANATimezoneData.zoneData[region]).forEach((city) => {
+        validTimezones.push(`${region}/${city}`);
+    });
 });
 
 async function getMcpSettings(accessToken) {
@@ -13,6 +22,7 @@ async function putMcpSettings(accessToken, settings) {
     mcpCustomizr.putSettings(accessToken, {
         language: settings.language,
         regionalSettings: settings.regionalSettings,
+        timezone: settings.timezone,
     });
 }
 
@@ -51,12 +61,29 @@ async function setPreferredMcpLanguage(accessToken, languageCode) {
 
 async function getMcpRegionalSettings(accessToken) {
     const mcpSettings = await mcpCustomizr.getSettings(accessToken);
-    return mcpSettings.language;
+    return mcpSettings.regionalSettings;
 }
 
 async function putMcpRegionalSettings(accessToken, regionalSettings) {
     mcpCustomizr.putSettings(accessToken, {
         regionalSettings: regionalSettings,
+    });
+}
+
+async function getPreferredMcpTimezone(accessToken) {
+    const mcpSettings = await mcpCustomizr.getSettings(accessToken);
+    return mcpSettings.timezone;
+}
+
+async function setPreferredMcpTimezone(accessToken, timezone) {
+
+    let tz = validTimezones.find((t) => t === timezone);
+    if (!tz) {
+        throw new Error('Provided timezone is not valid. Please pass valid IANA timezone identifier, eg. Europe/Amsterdam');
+    }
+
+    mcpCustomizr.putSettings(accessToken, {
+        timezone: timezone,
     });
 }
 
@@ -67,4 +94,6 @@ export {
     setPreferredMcpLanguage,
     getMcpRegionalSettings,
     putMcpRegionalSettings,
+    getPreferredMcpTimezone,
+    setPreferredMcpTimezone,
 };
