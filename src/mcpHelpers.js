@@ -1,6 +1,7 @@
 import CustomizrClient from './CustomizrClient';
 import countryLanguage from 'country-language';
 import IANATimezoneData from 'iana-tz-data';
+import LanguageTag from 'rfc5646';
 
 const mcpCustomizr = new CustomizrClient({
     resource: 'mcp-generic-ui-settings',
@@ -9,16 +10,17 @@ const mcpCustomizr = new CustomizrClient({
 const validTimezones = [];
 const regions = Object.keys(IANATimezoneData.zoneData);
 regions.forEach((region) => {
-    Object.keys(IANATimezoneData.zoneData[region]).forEach((city) => {
-        validTimezones.push(`${region}/${city}`);
-    });
+    Object.keys(IANATimezoneData.zoneData[region])
+        .forEach((city) => {
+            validTimezones.push(`${region}/${city}`);
+        });
 });
 
 async function getMcpSettings(accessToken) {
     return await mcpCustomizr.getSettings(accessToken);
 }
 
-async function putMcpSettings(accessToken, settings) {
+async function setMcpSettings(accessToken, settings) {
     mcpCustomizr.putSettings(accessToken, {
         language: settings.language,
         regionalSettings: settings.regionalSettings,
@@ -48,7 +50,7 @@ async function setPreferredMcpLanguage(accessToken, languageCode) {
             || (a.iso639_3 && a.iso639_3 === languageCode));
 
     if (!language) {
-        throw new Error('Provided language code is not valid. Please pass valid ISO-639 code');
+        throw new Error('Provided language code is not valid. Please pass a valid ISO-639 code');
     }
 
     let currentLanguages = await getPreferredMcpLanguages(accessToken);
@@ -59,14 +61,27 @@ async function setPreferredMcpLanguage(accessToken, languageCode) {
     });
 }
 
-async function getMcpRegionalSettings(accessToken) {
+async function getPreferredMcpRegionalSettings(accessToken) {
     const mcpSettings = await mcpCustomizr.getSettings(accessToken);
     return mcpSettings.regionalSettings;
 }
 
-async function putMcpRegionalSettings(accessToken, regionalSettings) {
+async function setPreferredMcpRegionalSettings(accessToken, languageTag) {
+    let valid = false;
+    let rfcCompliantValue;
+    try {
+        let tag = new LanguageTag(languageTag);
+        valid = !!tag.language;
+        rfcCompliantValue = tag.truncate({script: false}).toString();
+    } catch (e) {
+        valid = false;
+    }
+    if (!valid) {
+        throw new Error('Expected a valid rfc5646 language tag (eg. "en", "en-US", ...)');
+    }
+
     mcpCustomizr.putSettings(accessToken, {
-        regionalSettings: regionalSettings,
+        regionalSettings: rfcCompliantValue,
     });
 }
 
@@ -88,11 +103,11 @@ async function setPreferredMcpTimezone(accessToken, timezone) {
 
 export {
     getMcpSettings,
-    putMcpSettings,
+    setMcpSettings,
     getPreferredMcpLanguages,
     setPreferredMcpLanguage,
-    getMcpRegionalSettings,
-    putMcpRegionalSettings,
+    getPreferredMcpRegionalSettings,
+    setPreferredMcpRegionalSettings,
     getPreferredMcpTimezone,
     setPreferredMcpTimezone,
 };

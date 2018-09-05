@@ -3,23 +3,23 @@ import CustomizrClient from './CustomizrClient';
 
 import {
     getMcpSettings,
-    putMcpSettings,
+    setMcpSettings,
     getPreferredMcpLanguages,
     setPreferredMcpLanguage,
     getPreferredMcpTimezone,
     setPreferredMcpTimezone,
-    getMcpRegionalSettings,
-    putMcpRegionalSettings,
+    getPreferredMcpRegionalSettings,
+    setPreferredMcpRegionalSettings,
 } from './mcpHelpers';
 
 export {
     CustomizrClient,
     getMcpSettings,
-    putMcpSettings,
+    setMcpSettings,
     getPreferredMcpLanguages,
     setPreferredMcpLanguage,
     getPreferredMcpTimezone,
     setPreferredMcpTimezone,
-    getMcpRegionalSettings,
-    putMcpRegionalSettings,
+    getPreferredMcpRegionalSettings,
+    setPreferredMcpRegionalSettings,
 };

@@ -1,13 +1,13 @@
 {
   "name": "cimpress-customizr",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "description": "A thin client for Cimpress Customizr service",
   "main": "./lib/index.js",
   "files": [
     "lib"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node ./node_modules/mocha/bin/mocha --require babel-core/register tests/",
     "code-check": "eslint --ext .js --ext .jsx src",
     "build": "node ./node_modules/babel-cli/bin/babel.js src -d lib --copy-files"
   },
@@ -27,15 +27,22 @@
   ],
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "eslint": "^5.4.0",
-    "eslint-config-google": "^0.9.1"
+    "eslint-config-google": "^0.9.1",
+    "nock": "^9.6.1",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0"
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "axios-retry": "^3.1.1",
     "country-language": "^0.1.7",
     "iana-tz-data": "^2017.1.0",
+    "pope": "^2.0.2",
     "regenerator": "^0.13.2",
-    "regenerator-runtime": "^0.12.1"
+    "regenerator-runtime": "^0.12.1",
+    "rfc5646": "^3.0.0"
   }
 }

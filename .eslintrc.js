@@ -3,6 +3,7 @@ module.exports = {
         "browser": true,
         "node": true,
         "es6": true,
+        "mocha": true
     },
     "parserOptions": {
         "ecmaVersion": 2017,
