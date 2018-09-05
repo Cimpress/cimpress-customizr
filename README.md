@@ -21,7 +21,13 @@ Using the client
         timeout: 3000,
         
         // The address of Cimpress Customizr service
-        baseUrl: 'https://customizr.at.cimpress.io'
+        baseUrl: 'https://customizr.at.cimpress.io',
+        
+        // How many try to retry the request in case of network error or 5xx response
+        retryAttempts: 2,
+        
+        // How long to wait between retries in milliseconds
+        retryDelayInMs: 1000
     });
     
     client.getSettings(accessToken, resource).then(data => ...)
@@ -30,9 +36,20 @@ Using the client
     
 You can also use directly any of the following convenience functions:
 
-    import {getMcpSettings, putMcpSettings,
-        getPreferredMcpLanguages, setPreferredMcpLanguage,
-        getMcpRegionalSettings, putMcpRegionalSettings} from 'cimpress-customizr'
+    import {
+        getMcpSettings, 
+        setMcpSettings,
+        
+        getPreferredMcpLanguages, 
+        setPreferredMcpLanguage,
+        
+        getPreferredMcpTimezone,
+        setPreferredMcpTimezone
+        
+        getMcpRegionalSettings, 
+        setMcpRegionalSettings
+        
+        } from 'cimpress-customizr'
         
     getPreferredMcpLanguages(accessToken).then( languageArray => {
         /* 
