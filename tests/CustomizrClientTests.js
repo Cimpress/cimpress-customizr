@@ -9,7 +9,7 @@ const expect = chai.expect;
 const mcpCustomizr = new CustomizrClient({
     resource: 'mcp-generic-ui-settings',
     retryAttempts: 4,
-    retryDelayInMS: 200,
+    retryDelayInMs: 200,
 });
 
 describe('CustomizrClient', function() {

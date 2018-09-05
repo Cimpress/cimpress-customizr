@@ -10,7 +10,15 @@ class CustomizrClient {
         this.resource = encodeURIComponent(options.resource);
         this.timeout = options.timeout || 3000;
         this.retryAttempts = options.retryAttempts || 2;
-        this.retryDelayInMS = options.retryDelayInMS || 1000;
+        this.retryDelayInMs = options.retryDelayInMs || 1000;
+
+        let understoodOptions = ['baseUrl', 'resource', 'timeout', 'retryAttempts', 'retryDelayInMs'];
+        Object.keys(options).forEach((passedOption) => {
+            if (understoodOptions.indexOf(passedOption) === -1) {
+                // eslint-disable-next-line no-console
+                console.error(`[CustomizrClient] Option '${passedOption}' is not understood and will be ignored.`);
+            }
+        });
     }
 
     __getUrl(resource) {
@@ -30,7 +38,7 @@ class CustomizrClient {
             axiosRetry(instance, {
                 retries: this.retryAttempts,
                 retryDelay: (retryCount) => {
-                    return retryCount * this.retryDelayInMS;
+                    return this.retryDelayInMs;
                 },
             });
         }
