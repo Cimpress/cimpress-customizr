@@ -1,7 +1,6 @@
 import CustomizrClient from './CustomizrClient';
 import countryLanguage from 'country-language';
 import IANATimezoneData from 'iana-tz-data';
-import LanguageTag from 'rfc5646';
 
 const mcpCustomizr = new CustomizrClient({
     resource: 'mcp-generic-ui-settings',
@@ -67,21 +66,8 @@ async function getPreferredMcpRegionalSettings(accessToken) {
 }
 
 async function setPreferredMcpRegionalSettings(accessToken, languageTag) {
-    let valid = false;
-    let rfcCompliantValue;
-    try {
-        let tag = new LanguageTag(languageTag);
-        valid = !!tag.language;
-        rfcCompliantValue = tag.truncate({script: false}).toString();
-    } catch (e) {
-        valid = false;
-    }
-    if (!valid) {
-        throw new Error('Expected a valid rfc5646 language tag (eg. "en", "en-US", ...)');
-    }
-
     mcpCustomizr.putSettings(accessToken, {
-        regionalSettings: rfcCompliantValue,
+        regionalSettings: languageTag,
     });
 }
 
