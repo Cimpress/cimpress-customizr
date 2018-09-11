@@ -1,5 +1,5 @@
 import countryLanguage from 'country-language';
-import IANATimezoneData from "iana-tz-data";
+import IANATimezoneData from 'iana-tz-data';
 
 const validTimezones = [];
 const regions = Object.keys(IANATimezoneData.zoneData);
