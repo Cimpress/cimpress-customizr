@@ -1,32 +1,67 @@
 import CustomizrClient from './CustomizrClient';
 import countryLanguage from 'country-language';
-import IANATimezoneData from 'iana-tz-data';
+
+import {
+    getValidLanguageOrThrow,
+    getValidLanguageTagOrThrow,
+    getValidTimezoneOrThrow,
+    updatePreferredLanguage,
+} from './utils';
 
 const mcpCustomizr = new CustomizrClient({
     resource: 'mcp-generic-ui-settings',
 });
 
-const validTimezones = [];
-const regions = Object.keys(IANATimezoneData.zoneData);
-regions.forEach((region) => {
-    Object.keys(IANATimezoneData.zoneData[region])
-        .forEach((city) => {
-            validTimezones.push(`${region}/${city}`);
-        });
-});
-
+/**
+ * Return raw settings as stored in Customizr
+ * @param {string} accessToken - Access token to use to call Customizr
+ * @return {Promise<*|void>}
+ */
 async function getMcpSettings(accessToken) {
     return await mcpCustomizr.getSettings(accessToken);
 }
 
+/**
+ * Set raw settings in Customizr without any validation
+ * @param {string} accessToken - Access token to use to call Customizr
+ * @param {object} settings - Settings object. Only language, regionalSettings and timezone will be read
+ * @return {Promise<void>}
+ */
 async function setMcpSettings(accessToken, settings) {
-    mcpCustomizr.putSettings(accessToken, {
+    await mcpCustomizr.putSettings(accessToken, {
         language: settings.language,
         regionalSettings: settings.regionalSettings,
         timezone: settings.timezone,
     });
 }
 
+/**
+ * Validate and update the preferred user settings at once
+ * @param {string} accessToken - Access token to use to call Customizr
+ * @param {string} languageCode - ISO-639 language code (eg. bul, en, eng, de)
+ * @param {string} languageTag - RFC 4656 compliant language code (eg. en, en-US)
+ * @param {string} timezone - IANA timezone (eg. Europe/Amsterdam)
+ * @return {Promise<void>}
+ */
+async function setPreferredMcpSettings(accessToken, languageCode, languageTag, timezone) {
+    let preferredLanguage = getValidLanguageOrThrow(languageCode);
+    let preferredRegionalSettings = getValidLanguageTagOrThrow(languageTag);
+    let preferredTimezone = getValidTimezoneOrThrow(timezone);
+
+    const mcpSettings = await mcpCustomizr.getSettings(accessToken);
+
+    await mcpCustomizr.putSettings(accessToken, {
+        language: updatePreferredLanguage(preferredLanguage, mcpSettings.language),
+        regionalSettings: preferredRegionalSettings,
+        timezone: preferredTimezone,
+    });
+}
+
+/**
+ * Get the preferred language from Customizr
+ * @param {string} accessToken
+ * @return {Promise<*|Uint8Array|BigInt64Array|{lang: *, iso639_1: (string), iso639_2: *, iso639_3: *}[]|Float64Array|Int8Array|Float32Array|Int32Array|Uint32Array|Uint8ClampedArray|BigUint64Array|Int16Array|Uint16Array>}
+ */
 async function getPreferredMcpLanguages(accessToken) {
     const mcpSettings = await mcpCustomizr.getSettings(accessToken);
     const twoLetterArray = mcpSettings.language;
@@ -42,54 +77,76 @@ async function getPreferredMcpLanguages(accessToken) {
     });
 }
 
+/**
+ * Update the preferred language in Customizr
+ * @param {string} accessToken - Access token to use to call Customizr
+ * @param {string} languageCode - ISO-639 language code (eg. bul, en, eng, de)
+ * @return {Promise<void>}
+ */
 async function setPreferredMcpLanguage(accessToken, languageCode) {
-    let language = countryLanguage.getLanguages()
-        .find((a) => (a.iso639_1 && a.iso639_1 === languageCode)
-            || (a.iso639_2 && a.iso639_2 === languageCode)
-            || (a.iso639_3 && a.iso639_3 === languageCode));
-
-    if (!language) {
-        throw new Error('Provided language code is not valid. Please pass a valid ISO-639 code');
-    }
+    let language = getValidLanguageOrThrow(languageCode);
 
     let currentLanguages = await getPreferredMcpLanguages(accessToken);
-    let newLanguages = [language.iso639_1].concat(currentLanguages.filter((a) => a !== language.iso639_1));
 
     mcpCustomizr.putSettings(accessToken, {
-        language: newLanguages,
+        language: updatePreferredLanguage(language, currentLanguages),
     });
 }
 
+/**
+ * Get the preferred regional settings from Customizr
+ * @param {string} accessToken - Access token to use to call Customizr
+ * @return {Promise<string>}
+ */
 async function getPreferredMcpRegionalSettings(accessToken) {
     const mcpSettings = await mcpCustomizr.getSettings(accessToken);
     return mcpSettings.regionalSettings;
 }
 
+/**
+ * Update the preferred regional format in Customizr
+ * @param {string} accessToken - Access token to use to call Customizr
+ * @param {string} languageTag - RFC 4656 compliant language code (eg. en, en-US)
+ * @return {Promise<void>}
+ */
 async function setPreferredMcpRegionalSettings(accessToken, languageTag) {
+    let regionalSettings = getValidLanguageTagOrThrow(languageTag);
+
     mcpCustomizr.putSettings(accessToken, {
-        regionalSettings: languageTag,
+        regionalSettings: regionalSettings,
     });
 }
 
+/**
+ * Get the preferred timezone from Customizr
+ * @param {string} accessToken - Access token to use to call Customizr
+ * @return {Promise<string>}
+ */
 async function getPreferredMcpTimezone(accessToken) {
     const mcpSettings = await mcpCustomizr.getSettings(accessToken);
+
     return mcpSettings.timezone;
 }
 
+/**
+ * Update the preferred timezone from Customizr
+ * @param {string} accessToken - Access token to use to call Customizr
+ * @param {string} timezone - IANA timezone (eg. Europe/Amsterdam)
+ * @return {Promise<void>}
+ */
 async function setPreferredMcpTimezone(accessToken, timezone) {
-    let tz = validTimezones.find((t) => t === timezone);
-    if (!tz) {
-        throw new Error('Provided timezone is not valid. Please pass valid IANA timezone identifier, eg. Europe/Amsterdam');
-    }
+    let tz = getValidTimezoneOrThrow(timezone);
 
     mcpCustomizr.putSettings(accessToken, {
-        timezone: timezone,
+        timezone: tz,
     });
 }
 
 export {
     getMcpSettings,
     setMcpSettings,
+
+    setPreferredMcpSettings,
     getPreferredMcpLanguages,
     setPreferredMcpLanguage,
     getPreferredMcpRegionalSettings,

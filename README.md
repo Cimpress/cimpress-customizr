@@ -1,3 +1,6 @@
+[![npm version](https://badge.fury.io/js/cimpress-customizr.svg)](https://badge.fury.io/js/cimpress-customizr)
+[![Build Status](https://travis-ci.org/Cimpress/cimpress-customizr.svg?branch=master)](https://travis-ci.org/Cimpress/cimpress-customizr)
+
 # cimpress-customizr
 A thin client for accessing Cimpress Customizr service
 
@@ -40,6 +43,8 @@ You can also use directly any of the following convenience functions:
         getMcpSettings, 
         setMcpSettings,
         
+        setPreferredMcpSettings,
+        
         getPreferredMcpLanguages, 
         setPreferredMcpLanguage,
         
@@ -51,6 +56,9 @@ You can also use directly any of the following convenience functions:
         
         } from 'cimpress-customizr'
         
+        
+    setPreferredMcpSettings(accessToken, 'eng', 'en-US', 'Europe/Amsterdam').then(() => {})
+    
     getPreferredMcpLanguages(accessToken).then( languageArray => {
         /* 
         

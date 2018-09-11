@@ -4,6 +4,9 @@ import CustomizrClient from './CustomizrClient';
 import {
     getMcpSettings,
     setMcpSettings,
+
+    setPreferredMcpSettings,
+
     getPreferredMcpLanguages,
     setPreferredMcpLanguage,
     getPreferredMcpTimezone,
@@ -14,8 +17,12 @@ import {
 
 export {
     CustomizrClient,
+
     getMcpSettings,
     setMcpSettings,
+
+    setPreferredMcpSettings,
+
     getPreferredMcpLanguages,
     setPreferredMcpLanguage,
     getPreferredMcpTimezone,
