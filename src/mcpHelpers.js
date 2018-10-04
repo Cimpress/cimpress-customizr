@@ -28,7 +28,7 @@ async function getMcpSettings(accessToken) {
  * @return {Promise<void>}
  */
 async function setMcpSettings(accessToken, settings) {
-    await mcpCustomizr.putSettings(accessToken, {
+    return await mcpCustomizr.putSettings(accessToken, {
         language: settings.language,
         regionalSettings: settings.regionalSettings,
         timezone: settings.timezone,
@@ -50,7 +50,7 @@ async function setPreferredMcpSettings(accessToken, languageCode, languageTag, t
 
     const mcpSettings = await mcpCustomizr.getSettings(accessToken);
 
-    await mcpCustomizr.putSettings(accessToken, {
+    return await mcpCustomizr.putSettings(accessToken, {
         language: updatePreferredLanguage(preferredLanguage, mcpSettings.language),
         regionalSettings: preferredRegionalSettings,
         timezone: preferredTimezone,
@@ -88,7 +88,7 @@ async function setPreferredMcpLanguage(accessToken, languageCode) {
 
     let currentLanguages = await getPreferredMcpLanguages(accessToken);
 
-    mcpCustomizr.putSettings(accessToken, {
+    return mcpCustomizr.putSettings(accessToken, {
         language: updatePreferredLanguage(language, currentLanguages),
     });
 }
@@ -112,7 +112,7 @@ async function getPreferredMcpRegionalSettings(accessToken) {
 async function setPreferredMcpRegionalSettings(accessToken, languageTag) {
     let regionalSettings = getValidLanguageTagOrThrow(languageTag);
 
-    mcpCustomizr.putSettings(accessToken, {
+    return mcpCustomizr.putSettings(accessToken, {
         regionalSettings: regionalSettings,
     });
 }
@@ -137,7 +137,7 @@ async function getPreferredMcpTimezone(accessToken) {
 async function setPreferredMcpTimezone(accessToken, timezone) {
     let tz = getValidTimezoneOrThrow(timezone);
 
-    mcpCustomizr.putSettings(accessToken, {
+    return mcpCustomizr.putSettings(accessToken, {
         timezone: tz,
     });
 }
