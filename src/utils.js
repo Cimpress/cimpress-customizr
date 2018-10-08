@@ -1,15 +1,7 @@
 import countryLanguage from 'country-language';
-import IANATimezoneData from 'iana-tz-data';
+import moment from 'moment-timezone';
 
-const validTimezones = [];
-const regions = Object.keys(IANATimezoneData.zoneData);
-regions.forEach((region) => {
-    Object.keys(IANATimezoneData.zoneData[region])
-        .forEach((city) => {
-            validTimezones.push(`${region}/${city}`);
-        });
-});
-
+const validTimezones = moment.tz.names();
 function getValidLanguageOrThrow(languageCode) {
     let language = countryLanguage.getLanguages()
         .find((a) => (a.iso639_1 && a.iso639_1 === languageCode)
