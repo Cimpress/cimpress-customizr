@@ -29,7 +29,7 @@ function getValidLanguageTagOrThrow(languageTag) {
 }
 
 function updatePreferredLanguage(preferredLanguage, currentLanguages) {
-    return [preferredLanguage.iso639_1].concat(currentLanguages.filter((a) => a !== preferredLanguage.iso639_1));
+    return [preferredLanguage.iso639_1].concat((currentLanguages||[]).filter((a) => a !== preferredLanguage.iso639_1));
 }
 
 
