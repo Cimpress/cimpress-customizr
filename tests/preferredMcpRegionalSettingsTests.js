@@ -1,10 +1,15 @@
-import {getPreferredMcpRegionalSettings, setPreferredMcpRegionalSettings} from '../src/index';
+import {
+    getPreferredMcpLanguages,
+    getPreferredMcpRegionalSettings,
+    setPreferredMcpRegionalSettings,
+} from '../src/index';
 import chai from 'chai';
 
 const token = 'asd123';
 const expect = chai.expect;
 
-import {defaultMocks, defaultSettings} from './defaultMocks';
+import {defaultMocks, defaultSettings, resource} from './defaultMocks';
+import nock from 'nock';
 
 describe('Regional settings', function() {
     beforeEach(function() {
@@ -17,6 +22,17 @@ describe('Regional settings', function() {
                 expect(regionalSettings).to.equal(defaultSettings.regionalSettings);
             });
         });
+
+        it('should not throw in case of 404 from customizr', function() {
+            nock.cleanAll();
+            nock('https://customizr.at.cimpress.io')
+                .get(`/v1/resources/${resource}/settings`)
+                .reply(404);
+
+            return getPreferredMcpRegionalSettings(token).then((regionalSettings) => {
+                expect(regionalSettings).to.equal(undefined);
+            });
+        });
     });
 
     describe('setPreferredMcpRegionalSettings', function() {
@@ -26,17 +42,6 @@ describe('Regional settings', function() {
                     // empty
                 });
         });
-        /* TODO:
-        it('should fail with incorrect regionalSettings value', function() {
-            return setPreferredMcpRegionalSettings(token, 'wrong/regional/settings')
-                .then(() => {
-                    throw new Error('Setting regional settings succeeded with incorrect language tag!');
-                })
-                .catch((error) => {
-                    expect(error.message).to.have.string('Expected a valid rfc5646 language tag');
-                });
-        });
-        */
     });
 });
 

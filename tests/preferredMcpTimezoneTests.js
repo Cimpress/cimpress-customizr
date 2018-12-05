@@ -1,10 +1,11 @@
-import {getPreferredMcpTimezone, setPreferredMcpTimezone} from '../src/index';
+import { getPreferredMcpRegionalSettings, getPreferredMcpTimezone, setPreferredMcpTimezone } from '../src/index';
 import chai from 'chai';
 
 const token = 'asd123';
 const expect = chai.expect;
 
-import {defaultMocks} from './defaultMocks';
+import { defaultMocks, resource } from './defaultMocks';
+import nock from "nock";
 
 describe('Timezone', function() {
     beforeEach(function() {
@@ -15,6 +16,17 @@ describe('Timezone', function() {
         it('should return expected timezone', function() {
             return getPreferredMcpTimezone(token).then((timezone) => {
                 expect(timezone).to.equal('Europe/Amsterdam');
+            });
+        });
+
+        it('should not throw in case of 404 from customizr', function() {
+            nock.cleanAll();
+            nock('https://customizr.at.cimpress.io')
+                .get(`/v1/resources/${resource}/settings`)
+                .reply(404);
+
+            return getPreferredMcpTimezone(token).then((timezone) => {
+                expect(timezone).to.deep.equal('America/New_York');
             });
         });
     });
