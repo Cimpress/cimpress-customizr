@@ -18,7 +18,15 @@ const mcpCustomizr = new CustomizrClient({
  * @return {Promise<*|void>}
  */
 async function getMcpSettings(accessToken) {
-    return await mcpCustomizr.getSettings(accessToken);
+    let data = await mcpCustomizr.getSettings(accessToken);
+    if (Object.keys(data).length === 0) {
+        return {
+            language: ['en'],
+            regionalSettings: 'en',
+            timezone: 'America/New_York',
+        };
+    }
+    return data;
 }
 
 /**
@@ -48,7 +56,7 @@ async function setPreferredMcpSettings(accessToken, languageCode, languageTag, t
     let preferredRegionalSettings = getValidLanguageTagOrThrow(languageTag);
     let preferredTimezone = getValidTimezoneOrThrow(timezone);
 
-    const mcpSettings = await mcpCustomizr.getSettings(accessToken);
+    const mcpSettings = await getMcpSettings(accessToken);
 
     return await mcpCustomizr.putSettings(accessToken, {
         language: updatePreferredLanguage(preferredLanguage, mcpSettings.language),
@@ -63,8 +71,8 @@ async function setPreferredMcpSettings(accessToken, languageCode, languageTag, t
  * @return {Promise<*|Uint8Array|BigInt64Array|{lang: *, iso639_1: (string), iso639_2: *, iso639_3: *}[]|Float64Array|Int8Array|Float32Array|Int32Array|Uint32Array|Uint8ClampedArray|BigUint64Array|Int16Array|Uint16Array>}
  */
 async function getPreferredMcpLanguages(accessToken) {
-    const mcpSettings = await mcpCustomizr.getSettings(accessToken);
-    const twoLetterArray = mcpSettings.language;
+    const mcpSettings = await getMcpSettings(accessToken);
+    const twoLetterArray = mcpSettings.language || [];
 
     return twoLetterArray.map((twoLetter) => {
         let language = countryLanguage.getLanguages().find((a) => a.iso639_1 === twoLetter);
@@ -123,7 +131,7 @@ async function setPreferredMcpRegionalSettings(accessToken, languageTag) {
  * @return {Promise<string>}
  */
 async function getPreferredMcpTimezone(accessToken) {
-    const mcpSettings = await mcpCustomizr.getSettings(accessToken);
+    const mcpSettings = await getMcpSettings(accessToken);
 
     return mcpSettings.timezone;
 }
