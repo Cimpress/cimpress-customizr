@@ -40,6 +40,7 @@ class CustomizrClient {
                 retryDelay: (retryCount) => {
                     return this.retryDelayInMs;
                 },
+                shouldResetTimeout: true
             });
         }
 
