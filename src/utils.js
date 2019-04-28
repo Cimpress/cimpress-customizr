@@ -1,7 +1,6 @@
 import countryLanguage from 'country-language';
-import moment from 'moment-timezone';
+import validTimezones from './validTimezones';
 
-const validTimezones = moment.tz.names();
 function getValidLanguageOrThrow(languageCode) {
     let language = countryLanguage.getLanguages()
         .find((a) => (a.iso639_1 && a.iso639_1 === languageCode)
