@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.1.8] - 2019.06.23
+### Changed
+- Updating axios dependency to address potential vulnerability.
+
 ## [1.1.7] - 2019.04.25
 ### Changed
 - Removed dependency on moment-timezone in favor of a file containing the list of timezones.  Removes ~1MB of package size.
