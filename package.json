@@ -1,6 +1,6 @@
 {
   "name": "cimpress-customizr",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "A thin client for Cimpress Customizr service",
   "main": "./lib/index.js",
   "files": [
@@ -27,8 +27,8 @@
     "customizr"
   ],
   "devDependencies": {
-    "@babel/cli": "^7.4.3",
-    "@babel/core": "^7.4.3",
+    "@babel/cli": "^7.5.0",
+    "@babel/core": "^7.5.4",
     "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/polyfill": "7.0.0",
     "@babel/preset-env": "^7.4.3",
@@ -38,13 +38,14 @@
     "eslint-config-google": "^0.9.1",
     "mocha": "^5.2.0",
     "nock": "^9.6.1",
-    "nyc": "^13.0.1"
+    "nyc": "^14.1.1"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2",
     "axios": "^0.18.1",
     "axios-retry": "^3.1.1",
     "country-language": "^0.1.7",
-    "pope": "^2.0.2"
+    "pope": "^2.0.2",
+    "lodash": "^4.17.13"
   }
 }
