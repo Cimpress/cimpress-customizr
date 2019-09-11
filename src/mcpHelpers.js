@@ -97,7 +97,7 @@ async function setPreferredMcpLanguage(accessToken, languageCode) {
     let currentLanguages = await getPreferredMcpLanguages(accessToken);
 
     return mcpCustomizr.putSettings(accessToken, {
-        language: updatePreferredLanguage(language, currentLanguages.map(l => l.iso639_1)),
+        language: updatePreferredLanguage(language, currentLanguages.map((l) => l.iso639_1)),
     });
 }
 
