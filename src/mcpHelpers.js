@@ -19,6 +19,7 @@ const mcpCustomizr = new CustomizrClient({
  */
 async function getMcpSettings(accessToken) {
     let data = await mcpCustomizr.getSettings(accessToken);
+    console.log(data)
     if (Object.keys(data).length === 0) {
         return {
             language: ['en'],
@@ -97,7 +98,7 @@ async function setPreferredMcpLanguage(accessToken, languageCode) {
     let currentLanguages = await getPreferredMcpLanguages(accessToken);
 
     return mcpCustomizr.putSettings(accessToken, {
-        language: updatePreferredLanguage(language, currentLanguages),
+        language: updatePreferredLanguage(language, currentLanguages.map(l => l.iso639_1)),
     });
 }
 
