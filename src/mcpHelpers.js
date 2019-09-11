@@ -19,7 +19,6 @@ const mcpCustomizr = new CustomizrClient({
  */
 async function getMcpSettings(accessToken) {
     let data = await mcpCustomizr.getSettings(accessToken);
-    console.log(data)
     if (Object.keys(data).length === 0) {
         return {
             language: ['en'],
