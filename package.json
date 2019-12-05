@@ -6,6 +6,7 @@
   "files": [
     "lib"
   ],
+  "typings": "./index.d.ts",
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha --require @babel/polyfill --require @babel/register tests/",
     "code-check": "eslint --ext .js --ext .jsx src",
