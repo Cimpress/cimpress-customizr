@@ -1,11 +1,12 @@
 {
   "name": "cimpress-customizr",
-  "version": "1.1.11",
+  "version": "1.1.12",
   "description": "A thin client for Cimpress Customizr service",
   "main": "./lib/index.js",
   "files": [
     "lib"
   ],
+  "typings": "./index.d.ts",
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha --require @babel/polyfill --require @babel/register tests/",
     "code-check": "eslint --ext .js --ext .jsx src",
