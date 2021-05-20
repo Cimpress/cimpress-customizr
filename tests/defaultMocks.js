@@ -2,7 +2,7 @@ import nock from 'nock';
 
 const resource = 'mcp-generic-ui-settings';
 
-function defaultMocks () {
+function defaultMocks() {
     nock.cleanAll();
     nock('https://customizr.at.cimpress.io')
         .get(`/v1/resources/${resource}/settings`)

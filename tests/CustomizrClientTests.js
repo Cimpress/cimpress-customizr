@@ -1,5 +1,5 @@
-import { defaultSettings, resource } from './defaultMocks';
-import { CustomizrClient } from '../src/index';
+import {defaultSettings, resource} from './defaultMocks';
+import {CustomizrClient} from '../src/index';
 import chai from 'chai';
 import nock from 'nock';
 
@@ -12,12 +12,12 @@ const mcpCustomizr = new CustomizrClient({
     retryDelayInMs: 200,
 });
 
-describe('CustomizrClient', function () {
+describe('CustomizrClient', function() {
     // eslint-disable-next-line no-invalid-this
     this.timeout(10000);
 
-    describe('auto retry and fail if all more attempts failed', function () {
-        it('should throw', function () {
+    describe('auto retry and fail if all more attempts failed', function() {
+        it('should throw', function() {
             nock.cleanAll();
             nock('https://customizr.at.cimpress.io')
                 .get(`/v1/resources/${resource}/settings`)
@@ -35,8 +35,8 @@ describe('CustomizrClient', function () {
         });
     });
 
-    describe('auto retry and succeed', function () {
-        it('should return success', function () {
+    describe('auto retry and succeed', function() {
+        it('should return success', function() {
             nock.cleanAll();
             nock('https://customizr.at.cimpress.io')
                 .get(`/v1/resources/${resource}/settings`)
@@ -57,8 +57,8 @@ describe('CustomizrClient', function () {
         });
     });
 
-    describe('proxy request', function () {
-        it('request should be to the proxy endpoint and should throw error', function () {
+    describe('proxy request', function() {
+        it('request should be to the proxy endpoint and should throw error', function() {
             nock.cleanAll();
             nock('https://sessions.cimpress.io')
                 .post(`/v1/sessions/proxy?proxyUrl=https://customizr.at.cimpress.io/v1/resources/${resource}/settings&proxyUrlMethod=get`)
