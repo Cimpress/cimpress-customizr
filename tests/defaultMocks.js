@@ -2,7 +2,7 @@ import nock from 'nock';
 
 const resource = 'mcp-generic-ui-settings';
 
-function defaultMocks() {
+function defaultMocks () {
     nock.cleanAll();
     nock('https://customizr.at.cimpress.io')
         .get(`/v1/resources/${resource}/settings`)
@@ -14,6 +14,22 @@ function defaultMocks() {
 
     nock('https://customizr.at.cimpress.io')
         .put(`/v1/resources/${resource}/settings`)
+        .reply(200, {
+            language: defaultSettings.language.map((item) => item.lang),
+            regionalSettings: defaultSettings.regionalSettings,
+            timezone: defaultSettings.timezone,
+        });
+
+    nock('https://sessions.cimpress.io')
+        .post(`/v1/sessions/proxy?proxyUrl=https://customizr.at.cimpress.io/v1/resources/${resource}/settings&proxyUrlMethod=get`)
+        .reply(200, {
+            language: defaultSettings.language.map((item) => item.lang),
+            regionalSettings: defaultSettings.regionalSettings,
+            timezone: defaultSettings.timezone,
+        });
+
+    nock('https://sessions.cimpress.io')
+        .post(`/v1/sessions/proxy?proxyUrl=https://customizr.at.cimpress.io/v1/resources/${resource}/settings&proxyUrlMethod=put`)
         .reply(200, {
             language: defaultSettings.language.map((item) => item.lang),
             regionalSettings: defaultSettings.regionalSettings,

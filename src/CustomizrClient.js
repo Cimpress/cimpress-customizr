@@ -1,4 +1,4 @@
-import {pope} from 'pope';
+import { pope } from 'pope';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
 
@@ -6,7 +6,7 @@ const DEFAULT_BASE_URL = 'https://customizr.at.cimpress.io';
 const SESSION_PROXY_URL = 'https://sessions.cimpress.io';
 
 class CustomizrClient {
-    constructor(options) {
+    constructor (options) {
         this.baseUrl = options.baseUrl || DEFAULT_BASE_URL;
         this.resource = encodeURIComponent(options.resource);
         this.timeout = options.timeout || 3000;
@@ -22,15 +22,15 @@ class CustomizrClient {
         });
     }
 
-    __getUrl(resource) {
-        return `${pope('/v1/resources/{{resource}}/settings', {resource: resource || this.resource})}`;
+    __getUrl (resource) {
+        return `${pope('/v1/resources/{{resource}}/settings', { resource: resource || this.resource })}`;
     }
 
-    __getProxyUrl(url, method) {
-        return `${pope('/v1/sessions/proxy?proxyUrl={{url}}&proxyUrlMethod={{method}}', {url, method})}`;
+    __getProxyUrl (url, method) {
+        return `${pope('/v1/sessions/proxy?proxyUrl={{url}}&proxyUrlMethod={{method}}', { url, method })}`;
     }
 
-    __getAxiosInstance(accessToken, sessionId) {
+    __getAxiosInstance (accessToken, sessionId) {
         let instance = axios.create({
             baseURL: accessToken ? this.baseUrl : SESSION_PROXY_URL,
             timeout: this.timeout,
@@ -54,13 +54,13 @@ class CustomizrClient {
         return instance;
     }
 
-    async getSettings(accessToken, resource = undefined, sessionId = undefined) {
+    async getSettings (accessToken, resource = undefined, sessionId = undefined) {
         const axiosInstance = this.__getAxiosInstance(accessToken, sessionId);
 
         try {
             let response = accessToken
                 ? await axiosInstance.get(this.__getUrl(resource))
-                : await axiosInstance.post(this.__getProxyUrl(this.__getUrl(resource), 'get'), {});
+                : await axiosInstance.post(this.__getProxyUrl(`${this.baseUrl}${this.__getUrl(resource)}`, 'get'), {});
             return response.data;
         } catch (err) {
             if (err.response && err.response.status !== 404) {
@@ -70,14 +70,14 @@ class CustomizrClient {
         }
     }
 
-    async putSettings(accessToken, update, resource = undefined, sessionId = undefined) {
+    async putSettings (accessToken, update, resource = undefined, sessionId = undefined) {
         let settings = await this.getSettings(accessToken, resource, sessionId);
         let newSettings = Object.assign({}, settings, update);
 
         const axiosInstance = this.__getAxiosInstance(accessToken, sessionId);
         let response = accessToken
             ? await axiosInstance.put(this.__getUrl(resource), newSettings)
-            : await axiosInstance.post(this.__getProxyUrl(this.__getUrl(resource), 'put'), newSettings);
+            : await axiosInstance.post(this.__getProxyUrl(`${this.baseUrl}${this.__getUrl(resource)}`, 'put'), newSettings);
 
         return response.data;
     }
