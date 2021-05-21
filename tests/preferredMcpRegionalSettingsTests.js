@@ -33,6 +33,12 @@ describe('Regional settings', function() {
                 expect(regionalSettings).to.equal(undefined);
             });
         });
+
+        it('should return expected regionalSettings by proxying request', function() {
+            return getPreferredMcpRegionalSettings(undefined, 'testSessionId').then((regionalSettings) => {
+                expect(regionalSettings).to.equal(defaultSettings.regionalSettings);
+            });
+        });
     });
 
     describe('setPreferredMcpRegionalSettings', function() {

@@ -19,6 +19,22 @@ function defaultMocks() {
             regionalSettings: defaultSettings.regionalSettings,
             timezone: defaultSettings.timezone,
         });
+
+    nock('https://sessions.cimpress.io')
+        .post(`/v1/sessions/proxy?proxyUrl=https://customizr.at.cimpress.io/v1/resources/${resource}/settings&proxyUrlMethod=get`)
+        .reply(200, {
+            language: defaultSettings.language.map((item) => item.lang),
+            regionalSettings: defaultSettings.regionalSettings,
+            timezone: defaultSettings.timezone,
+        });
+
+    nock('https://sessions.cimpress.io')
+        .post(`/v1/sessions/proxy?proxyUrl=https://customizr.at.cimpress.io/v1/resources/${resource}/settings&proxyUrlMethod=put`)
+        .reply(200, {
+            language: defaultSettings.language.map((item) => item.lang),
+            regionalSettings: defaultSettings.regionalSettings,
+            timezone: defaultSettings.timezone,
+        });
 }
 
 const defaultSettings = {

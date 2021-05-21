@@ -34,5 +34,11 @@ describe('Languages', function() {
                 }]);
             });
         });
+
+        it('should proxy the request', function() {
+            return getPreferredMcpLanguages(undefined, 'testSessionId').then((langs) => {
+                expect(langs).to.deep.equal(defaultSettings.language);
+            });
+        });
     });
 });

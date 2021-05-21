@@ -8,7 +8,6 @@ import {defaultMocks, resource} from './defaultMocks';
 import nock from 'nock';
 
 describe('Settings', function() {
-
     describe('getMcpSettings', function() {
         beforeEach(function() {
             defaultMocks();
@@ -39,6 +38,20 @@ describe('Settings', function() {
                     language: ['en'],
                     regionalSettings: 'en',
                     timezone: 'America/New_York',
+                });
+            });
+        });
+
+        it('should return expected preferred languages list by proxying request', function() {
+            return getMcpSettings(undefined, 'testSessionId').then((langs) => {
+                expect(langs).to.deep.equal({
+                    language: [
+                        'bg',
+                        'en',
+                        'de',
+                    ],
+                    regionalSettings: 'en',
+                    timezone: 'Europe/Amsterdam',
                 });
             });
         });

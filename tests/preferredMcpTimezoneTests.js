@@ -1,11 +1,11 @@
-import { getPreferredMcpRegionalSettings, getPreferredMcpTimezone, setPreferredMcpTimezone } from '../src/index';
+import {getPreferredMcpRegionalSettings, getPreferredMcpTimezone, setPreferredMcpTimezone} from '../src/index';
 import chai from 'chai';
 
 const token = 'asd123';
 const expect = chai.expect;
 
-import { defaultMocks, resource } from './defaultMocks';
-import nock from "nock";
+import {defaultMocks, resource} from './defaultMocks';
+import nock from 'nock';
 
 describe('Timezone', function() {
     beforeEach(function() {
@@ -27,6 +27,12 @@ describe('Timezone', function() {
 
             return getPreferredMcpTimezone(token).then((timezone) => {
                 expect(timezone).to.deep.equal('America/New_York');
+            });
+        });
+
+        it('should return expected timezone by proxying request', function() {
+            return getPreferredMcpTimezone(undefined, 'testSessionId').then((timezone) => {
+                expect(timezone).to.equal('Europe/Amsterdam');
             });
         });
     });

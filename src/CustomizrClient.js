@@ -3,6 +3,7 @@ import axios from 'axios';
 import axiosRetry from 'axios-retry';
 
 const DEFAULT_BASE_URL = 'https://customizr.at.cimpress.io';
+const SESSION_PROXY_URL = 'https://sessions.cimpress.io';
 
 class CustomizrClient {
     constructor(options) {
@@ -25,12 +26,18 @@ class CustomizrClient {
         return `${pope('/v1/resources/{{resource}}/settings', {resource: resource || this.resource})}`;
     }
 
-    __getAxiosInstance(accessToken) {
+    __getProxyUrl(url, method) {
+        return `${pope('/v1/sessions/proxy?proxyUrl={{url}}&proxyUrlMethod={{method}}', {url, method})}`;
+    }
+
+    __getAxiosInstance(accessToken, sessionId) {
         let instance = axios.create({
-            baseURL: this.baseUrl,
+            baseURL: accessToken ? this.baseUrl : SESSION_PROXY_URL,
             timeout: this.timeout,
-            headers: {
+            headers: accessToken ? {
                 Authorization: `Bearer ${accessToken}`,
+            } : {
+                'x-session-id': sessionId,
             },
         });
 
@@ -47,11 +54,13 @@ class CustomizrClient {
         return instance;
     }
 
-    async getSettings(accessToken, resource = undefined) {
-        const axiosInstance = this.__getAxiosInstance(accessToken);
+    async getSettings(accessToken, resource = undefined, sessionId = undefined) {
+        const axiosInstance = this.__getAxiosInstance(accessToken, sessionId);
 
         try {
-            let response = await axiosInstance.get(this.__getUrl(resource));
+            let response = accessToken
+                ? await axiosInstance.get(this.__getUrl(resource))
+                : await axiosInstance.post(this.__getProxyUrl(`${this.baseUrl}${this.__getUrl(resource)}`, 'get'), {});
             return response.data;
         } catch (err) {
             if (err.response && err.response.status !== 404) {
@@ -61,12 +70,14 @@ class CustomizrClient {
         }
     }
 
-    async putSettings(accessToken, update, resource = undefined) {
-        let settings = await this.getSettings(accessToken, resource);
+    async putSettings(accessToken, update, resource = undefined, sessionId = undefined) {
+        let settings = await this.getSettings(accessToken, resource, sessionId);
         let newSettings = Object.assign({}, settings, update);
 
-        const axiosInstance = this.__getAxiosInstance(accessToken);
-        let response = await axiosInstance.put(this.__getUrl(resource), newSettings);
+        const axiosInstance = this.__getAxiosInstance(accessToken, sessionId);
+        let response = accessToken
+            ? await axiosInstance.put(this.__getUrl(resource), newSettings)
+            : await axiosInstance.post(this.__getProxyUrl(`${this.baseUrl}${this.__getUrl(resource)}`, 'put'), newSettings);
 
         return response.data;
     }
