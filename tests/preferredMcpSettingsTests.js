@@ -1,4 +1,4 @@
-import {getMcpSettings} from '../src/index';
+import {getMcpSettings} from '../lib/index';
 import chai from 'chai';
 
 const token = 'asd123';

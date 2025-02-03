@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",                 // Supports async/await and modern JS features.
+    "module": "ESNext",                 // Use ESNext modules if using ES module imports.
+    "moduleResolution": "Node",         // Resolve modules like Node.js.
+    "lib": ["ESNext", "DOM"],           // Include "DOM" for web APIs like `fetch` and other browser features.
+    "strict": true,                     // Enable strict mode for better type checking.
+    "esModuleInterop": true,            // Allows default imports from modules without default exports.
+    "skipLibCheck": true,               // Skip type checking of declaration files (for faster build).
+    "forceConsistentCasingInFileNames": true, // Ensures consistent casing in imports.
+    "resolveJsonModule": true,          // Allows importing JSON files.
+    "noImplicitAny": true,              // Ensures no variable implicitly has `any` type.
+    "noUnusedLocals": true,             // Warns about unused local variables.
+    "noUnusedParameters": true,         // Warns about unused function parameters.
+    "strictNullChecks": true,           // Strict null checks for better safety.
+    "outDir": "./lib",                 // Output compiled JS files to the `dist` folder.
+    "declaration": true,                // Generates `.d.ts` files for the package.
+    "sourceMap": true,                  // Generates source maps for debugging.
+    "isolatedModules": true             // Ensures each file is treated as an isolated module (necessary for ES module support).
+  },
+  "include": [
+    "src/**/*.ts"                        // Includes all TypeScript files under the `src` folder.
+  ],
+  "exclude": [
+    "node_modules",                      // Exclude node_modules directory.
+    "lib"                               // Exclude the dist folder from being compiled.
+  ]
+}
