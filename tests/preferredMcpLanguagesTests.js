@@ -1,5 +1,6 @@
-import {getPreferredMcpLanguages} from '../src/index';
+import {getPreferredMcpLanguages} from '../lib/index';
 import chai from 'chai';
+import fetchMock from 'fetch-mock';
 
 const token = 'asd123';
 const expect = chai.expect;
@@ -11,6 +12,7 @@ describe('Languages', function() {
     describe('getPreferredMcpLanguages', function() {
         beforeEach(function() {
             defaultMocks();
+            fetchMock.unmockGlobal();
         });
 
         it('should return expected preferred languages list', function() {
@@ -21,9 +23,7 @@ describe('Languages', function() {
 
         it('should not throw in case of 404 from customizr', function() {
             nock.cleanAll();
-            nock('https://customizr.at.cimpress.io')
-                .get(`/v1/resources/${resource}/settings`)
-                .reply(404);
+            fetchMock.mockGlobal().get(`https://customizr.at.cimpress.io/v1/resources/${resource}/settings`, 404, {headers: {authorization: 'Bearer asd123'}});
 
             return getPreferredMcpLanguages(token).then((langs) => {
                 expect(langs).to.deep.equal([{

@@ -1,5 +1,5 @@
 import {defaultSettings, resource} from './defaultMocks';
-import {CustomizrClient} from '../src/index';
+import {CustomizrClient} from '../lib/index';
 import chai from 'chai';
 import nock from 'nock';
 
@@ -26,11 +26,8 @@ describe('CustomizrClient', function() {
 
             return mcpCustomizr
                 .getSettings(token)
-                .then(() => {
-                    throw new Error('Should fail but it did not');
-                })
                 .catch((error) => {
-                    expect(error.message).to.have.string('Request failed with status code 500');
+                    expect(error.message).to.have.string('There was an error getting the customizr data.');
                 });
         });
     });
@@ -63,13 +60,10 @@ describe('CustomizrClient', function() {
             nock('https://sessions.cimpress.io')
                 .post(`/v1/sessions/proxy?proxyUrl=https://customizr.at.cimpress.io/v1/resources/${resource}/settings&proxyUrlMethod=get`)
                 .times(10000)
-                .reply(500);
+                .replyWithError('Request failed with status code 500');
 
             return mcpCustomizr
                 .getSettings(undefined, undefined, 'testSessionId')
-                .then(() => {
-                    throw new Error('Should fail but it did not');
-                })
                 .catch((error) => {
                     expect(error.message).to.have.string('Request failed with status code 500');
                 });

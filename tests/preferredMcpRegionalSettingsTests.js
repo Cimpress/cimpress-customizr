@@ -1,9 +1,9 @@
 import {
-    getPreferredMcpLanguages,
     getPreferredMcpRegionalSettings,
     setPreferredMcpRegionalSettings,
-} from '../src/index';
+} from '../lib/index';
 import chai from 'chai';
+import fetchMock from 'fetch-mock';
 
 const token = 'asd123';
 const expect = chai.expect;
@@ -14,6 +14,7 @@ import nock from 'nock';
 describe('Regional settings', function() {
     beforeEach(function() {
         defaultMocks();
+        fetchMock.unmockGlobal();
     });
 
     describe('getPreferredMcpRegionalSettings', function() {
@@ -25,9 +26,7 @@ describe('Regional settings', function() {
 
         it('should not throw in case of 404 from customizr', function() {
             nock.cleanAll();
-            nock('https://customizr.at.cimpress.io')
-                .get(`/v1/resources/${resource}/settings`)
-                .reply(404);
+            fetchMock.mockGlobal().get(`https://customizr.at.cimpress.io/v1/resources/${resource}/settings`, 404, {headers: {authorization: 'Bearer asd123'}});
 
             return getPreferredMcpRegionalSettings(token).then((regionalSettings) => {
                 expect(regionalSettings).to.equal(undefined);
