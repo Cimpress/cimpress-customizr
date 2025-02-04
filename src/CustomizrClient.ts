@@ -125,6 +125,8 @@ class CustomizrClient {
       ...mergedOptions
     }
 
+    console.log("merged options: ", mergedOptions);
+
     return fetch(fetchRequestData.url, mergedOptions)
       .then(async data => {
         if (!data.ok) {
@@ -139,7 +141,7 @@ class CustomizrClient {
       .catch(onError);
   }
 
-  async getSettings(accessToken: string, resource = undefined, sessionId: string | undefined = undefined) {
+  async getSettings(accessToken: string, resource: string | undefined = undefined, sessionId: string | undefined = undefined) {
     try {
       let response = accessToken
         ? await this.__fetchRetry({
@@ -165,7 +167,7 @@ class CustomizrClient {
     }
   }
 
-  async putSettings(accessToken: string, update: any, resource = undefined, sessionId: string | undefined = undefined) {
+  async putSettings(accessToken: string, update: any, resource: string | undefined = undefined, sessionId: string | undefined = undefined) {
     let settings = await this.getSettings(accessToken, resource, sessionId);
     let newSettings = Object.assign({}, settings, update);
 
@@ -173,12 +175,12 @@ class CustomizrClient {
       ? await this.__fetchRetry({
           accessToken,
           url: this.__getUrl(resource),
-          fetchOptions: { ...newSettings, method: "PUT" },
+          fetchOptions: { body: JSON.stringify({ ...newSettings }), method: "PUT" },
         })
       : await this.__fetchRetry({
           accessToken,
           url: this.__getProxyUrl(`${this.baseUrl}${this.__getUrl(resource)}`, "put"),
-          fetchOptions: { ...newSettings, method: "POST" },
+          fetchOptions: { body: JSON.stringify({ ...newSettings }), method: "POST" },
         });
 
     return response;

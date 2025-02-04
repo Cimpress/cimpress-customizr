@@ -16,10 +16,12 @@
     "outDir": "./lib",                 // Output compiled JS files to the `dist` folder.
     "declaration": true,                // Generates `.d.ts` files for the package.
     "sourceMap": true,                  // Generates source maps for debugging.
-    "isolatedModules": true             // Ensures each file is treated as an isolated module (necessary for ES module support).
+    "isolatedModules": true,             // Ensures each file is treated as an isolated module (necessary for ES module support).
+    "jsx": "react-jsx"
   },
   "include": [
-    "src/**/*.ts"                        // Includes all TypeScript files under the `src` folder.
+    "src/**/*.ts",                        // Includes all TypeScript files under the `src` folder.
+    "src/stories/CustomizrClient.tsx"
   ],
   "exclude": [
     "node_modules",                      // Exclude node_modules directory.
