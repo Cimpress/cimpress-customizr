@@ -1,5 +1,4 @@
 import {
-    getPreferredMcpLanguages,
     getPreferredMcpRegionalSettings,
     setPreferredMcpRegionalSettings,
 } from '../lib/index';
@@ -15,6 +14,7 @@ import nock from 'nock';
 describe('Regional settings', function() {
     beforeEach(function() {
         defaultMocks();
+        fetchMock.unmockGlobal();
     });
 
     describe('getPreferredMcpRegionalSettings', function() {
@@ -30,7 +30,6 @@ describe('Regional settings', function() {
 
             return getPreferredMcpRegionalSettings(token).then((regionalSettings) => {
                 expect(regionalSettings).to.equal(undefined);
-                fetchMock.unmockGlobal();
             });
         });
 

@@ -19,15 +19,15 @@ const mcpCustomizr = new CustomizrClient({
  * @return {Promise<*|void>}
  */
 async function getMcpSettings(accessToken, sessionId = undefined) {
-    try {
-        return await mcpCustomizr.getSettings(accessToken, undefined, sessionId);
-    } catch (error) {
+    let data = await mcpCustomizr.getSettings(accessToken, undefined, sessionId);
+    if (Object.keys(data).length === 0) {
         return {
             language: ['en'],
             regionalSettings: 'en',
             timezone: 'America/New_York',
         };
     }
+    return data;
 }
 
 /**
@@ -115,9 +115,9 @@ async function setPreferredMcpLanguage(accessToken, languageCode, sessionId = un
 async function getPreferredMcpRegionalSettings(accessToken, sessionId = undefined) {
     try {
         const mcpSettings = await mcpCustomizr.getSettings(accessToken, undefined, sessionId);
-        return mcpSettings.regionalSettings;
+        return mcpSettings ? mcpSettings.regionalSettings : undefined;
     } catch (error) {
-        // swallow error
+        throw error;
     }
 }
 

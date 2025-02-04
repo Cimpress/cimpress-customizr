@@ -22,12 +22,12 @@ describe('CustomizrClient', function() {
             nock('https://customizr.at.cimpress.io')
                 .get(`/v1/resources/${resource}/settings`)
                 .times(10000)
-                .replyWithError('Request failed with status code 500');
+                .reply(500);
 
             return mcpCustomizr
                 .getSettings(token)
                 .catch((error) => {
-                    expect(error.message).to.have.string('Request failed with status code 500');
+                    expect(error.message).to.have.string('There was an error getting the customizr data.');
                 });
         });
     });

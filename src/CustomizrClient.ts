@@ -9,6 +9,19 @@ type Options = {
   retryDelayInMs?: number;
 };
 
+class CustomError extends Error {
+  code: number;
+  request: Request;
+  response: Response;
+
+ constructor(message: string, code: number, request: Request, response: Response) {
+  super(message)
+  this.code = code
+  this.request = request;
+  this.response = response;
+ }
+}
+
 class CustomizrClient {
   resource: string;
   baseUrl: string;
@@ -106,8 +119,23 @@ class CustomizrClient {
       );
     };
 
-    return fetch(`${baseUrl}${url}`, { ...options, ...fetchOptions })
-      .then(async data => await data.json())
+    const mergedOptions = { ...options, ...fetchOptions };
+    const fetchRequestData = {
+      url: `${baseUrl}${url}`,
+      ...mergedOptions
+    }
+
+    return fetch(fetchRequestData.url, mergedOptions)
+      .then(async data => {
+        if (!data.ok) {
+          if (data.status === 404) {
+            return {};
+          }
+
+          throw new CustomError('There was an error getting the customizr data.', data.status, fetchRequestData, data);
+        }
+        return await data.json();
+      })
       .catch(onError);
   }
 
@@ -130,7 +158,10 @@ class CustomizrClient {
       return response;
       // eslint-disable-next-line prettier/prettier
     } catch (err: any) {
-      throw err;
+      if (err && err.code !== 404) {
+        throw err;
+      }
+      return {};
     }
   }
 

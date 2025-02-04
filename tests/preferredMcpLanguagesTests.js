@@ -12,6 +12,7 @@ describe('Languages', function() {
     describe('getPreferredMcpLanguages', function() {
         beforeEach(function() {
             defaultMocks();
+            fetchMock.unmockGlobal();
         });
 
         it('should return expected preferred languages list', function() {
@@ -31,7 +32,6 @@ describe('Languages', function() {
                     iso639_3: 'eng',
                     lang: 'en',
                 }]);
-                fetchMock.unmockGlobal();
             });
         });
 
