@@ -8,7 +8,7 @@ on:
       - master
   pull_request:
     branches:
-      - '**'  # Trigger for pull requests on any branch
+      - '**'  # Trigger for pull requests on any branch in repo
 
 permissions:
   contents: read
