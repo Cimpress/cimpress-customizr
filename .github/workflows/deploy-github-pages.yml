@@ -5,8 +5,10 @@ on:
   # Event for the workflow to run on
   push:
     branches:
-      - ${{ github.head_ref || github.ref_name }}
       - master
+  pull_request:
+    branches:
+      - '**'  # Trigger for pull requests on any branch
 
 permissions:
   contents: read
