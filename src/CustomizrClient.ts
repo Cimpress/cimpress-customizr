@@ -125,8 +125,6 @@ class CustomizrClient {
       ...mergedOptions
     }
 
-    console.log("merged options: ", mergedOptions);
-
     return fetch(fetchRequestData.url, mergedOptions)
       .then(async data => {
         if (!data.ok) {
@@ -134,7 +132,7 @@ class CustomizrClient {
             return {};
           }
 
-          throw new CustomError('There was an error getting the customizr data.', data.status, fetchRequestData, data);
+          throw new CustomError(`Request failed with status code ${data.status}`, data.status, fetchRequestData, data);
         }
         return await data.json();
       })
