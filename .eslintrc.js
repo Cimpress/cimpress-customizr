@@ -17,7 +17,6 @@ module.exports = {
     "extends": [
         "eslint:recommended",
         "google",
-        "plugin:storybook/recommended",
         "plugin:storybook/recommended"
     ],
     "rules": {
