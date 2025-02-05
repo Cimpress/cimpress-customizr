@@ -113,12 +113,8 @@ async function setPreferredMcpLanguage(accessToken, languageCode, sessionId = un
  * @return {Promise<string>}
  */
 async function getPreferredMcpRegionalSettings(accessToken, sessionId = undefined) {
-    try {
-        const mcpSettings = await mcpCustomizr.getSettings(accessToken, undefined, sessionId);
-        return mcpSettings ? mcpSettings.regionalSettings : undefined;
-    } catch (error) {
-        throw error;
-    }
+    const mcpSettings = await mcpCustomizr.getSettings(accessToken, undefined, sessionId);
+    return mcpSettings ? mcpSettings.regionalSettings : undefined;
 }
 
 /**
