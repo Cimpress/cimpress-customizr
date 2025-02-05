@@ -4,6 +4,11 @@
 # cimpress-customizr
 A thin client for accessing Cimpress Customizr service
 
+## Breaking Changes - 2.0.0 Release
+
+The 2.0.0 release completely rewrites the core of the `CustomizrClient` to use the `fetch` API instead of `axios`. This will reduce the potential for security vulnerabilities within the package. It matches the `axios` behavior and response shapes as closely as possible, but please be sure to test your app when upgrading.
+
+This release also adds Typescript for the `CustomizrClient` and exports the types. If you're using Typescript in your application or package, you will now get type hints.
 
 ## Usage
 

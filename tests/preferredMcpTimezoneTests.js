@@ -1,4 +1,4 @@
-import {getPreferredMcpRegionalSettings, getPreferredMcpTimezone, setPreferredMcpTimezone} from '../src/index';
+import {getPreferredMcpTimezone, setPreferredMcpTimezone} from '../lib/index';
 import chai from 'chai';
 
 const token = 'asd123';

@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2025.02.05
+### Changed
+- Completely rewrites the core of the `CustomizrClient`
+- Moves from `axios` to `fetch` API to reduce dependencies
+- Updates dependencies to resolve security vulnerabilities
+- Adds Typescript for the `CustomizrClient`
+
 ## [1.2.0] - 2021.05.19
 ### Changed
 - Making it session aware.

@@ -1,5 +1,5 @@
 import {defaultSettings, resource} from './defaultMocks';
-import {CustomizrClient} from '../src/index';
+import {CustomizrClient} from '../lib/index';
 import chai from 'chai';
 import nock from 'nock';
 

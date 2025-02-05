@@ -16,7 +16,8 @@ module.exports = {
     ],
     "extends": [
         "eslint:recommended",
-        "google"
+        "google",
+        "plugin:storybook/recommended"
     ],
     "rules": {
         "indent": ["error", 4],
