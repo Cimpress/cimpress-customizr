@@ -9,7 +9,7 @@
   "typings": "./index.d.ts",
   "scripts": {
     "test": "npm run build && node ./node_modules/mocha/bin/mocha --require @babel/polyfill --require @babel/register tests/",
-    "code-check": "eslint --ext .js --ext .jsx src",
+    "code-check": "ESLINT_USE_FLAT_CONFIG=false eslint 'src/' --ext .js --ext .jsx",
     "cover": "npm run build && node ./node_modules/nyc/bin/nyc.js ./node_modules/mocha/bin/mocha --require @babel/polyfill --require @babel/register tests/",
     "build": "tsc -p ./tsconfig.build.json && babel src -d lib --ignore 'src/stories/*' && node ./copy-files.js",
     "storybook": "storybook dev -p 6006",
