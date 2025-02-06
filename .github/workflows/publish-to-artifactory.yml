@@ -39,11 +39,10 @@ jobs:
       # Set as a secret in Github
       - name: Add keywords and publish
         run: |
+          # Ensure the npm registry is set for publishing
+          npm config set @cimpress-technology:registry=https://artifactory.cimpress.io/artifactory/api/npm/npm-release-local/
           npm pkg delete scripts.prepare
-          npm publish
+          # Publish the package to Artifactory explicitly
+          npm publish --registry https://artifactory.cimpress.io/artifactory/api/npm/npm-release-local/
         env:
           DEFAULT_KEYWORDS: ${{ secrets.DEFAULT_KEYWORDS }}
-
-      - name: Upload version bump to artifactory
-        run: |
-          npm config set @cimpress-technology:registry=https://artifactory.cimpress.io/artifactory/api/npm/npm-release-local/
