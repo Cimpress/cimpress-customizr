@@ -1,5 +1,5 @@
 import CustomizrClient from './CustomizrClient';
-import { countryLanguage } from './utils';
+import {countryLanguage} from './utils';
 
 import {
     getValidLanguageOrThrow,

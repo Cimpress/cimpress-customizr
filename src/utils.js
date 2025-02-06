@@ -1,5 +1,6 @@
 import validTimezones from './validTimezones';
 
+/* eslint-disable */
 export const countryLanguage = [
     {
       "iso639_1": "ab",
@@ -8384,6 +8385,7 @@ export const countryLanguage = [
     }
   ];
 
+/* eslint-enable */
 function getValidLanguageOrThrow(languageCode) {
     let language = countryLanguage
         .find((a) => (a.iso639_1 && a.iso639_1 === languageCode)
