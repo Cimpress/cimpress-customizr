@@ -1,7 +1,4 @@
-[![npm version](https://badge.fury.io/js/cimpress-customizr.svg)](https://badge.fury.io/js/cimpress-customizr)
-[![Build Status](https://travis-ci.org/Cimpress/cimpress-customizr.svg?branch=master)](https://travis-ci.org/Cimpress/cimpress-customizr)
-
-# cimpress-customizr
+# @cimpress-technology/customizr
 A thin client for accessing Cimpress Customizr service
 
 ## Breaking Changes - 2.0.0 Release
@@ -12,13 +9,15 @@ This release also adds Typescript for the `CustomizrClient` and exports the type
 
 ## Usage
 
+For versions `2.x.x` and later, you'll need to configure the `cimpress-technology` scope and will need a Cimpress Artifactory token to download the package.
+
 Install the package:
     
-    npm install --save cimpress-customizr
+    npm install --save @cimpress-technology/customizr
 
 Using the client
     
-    import {CustomizrClient} from 'cimpress-customizr'
+    import {CustomizrClient} from '@cimpress-technology/customizr'
     
     const client = new CustomizrClient({
         // The resource you'd like to get/put the settings from/to.
@@ -81,7 +80,9 @@ You can also use directly any of the following convenience functions:
     
     setPreferredMcpLanguage(accessToken, newLanguage).then( ... )
 
-    
+### Versions before 2.x.x
+
+This package was [originally published in the npm registry](https://www.npmjs.com/package/cimpress-customizr) under the name `cimpress-customizr`. All versions up to `1.2.0` can be found there. We recommend using version `2.x.x` or later to get security updates and feature improvements.
 
 ## Development
 

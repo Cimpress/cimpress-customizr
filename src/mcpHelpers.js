@@ -1,5 +1,5 @@
 import CustomizrClient from './CustomizrClient';
-import countryLanguage from 'country-language';
+import { countryLanguage } from './utils';
 
 import {
     getValidLanguageOrThrow,
@@ -79,7 +79,7 @@ async function getPreferredMcpLanguages(accessToken, sessionId = undefined) {
     const twoLetterArray = mcpSettings.language || [];
 
     return twoLetterArray.map((twoLetter) => {
-        let language = countryLanguage.getLanguages().find((a) => a.iso639_1 === twoLetter);
+        let language = countryLanguage.find((a) => a.iso639_1 === twoLetter);
         return {
             lang: twoLetter,
             iso639_1: language ? language.iso639_1 : twoLetter,
