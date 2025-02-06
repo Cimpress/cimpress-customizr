@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      ARTIFACTORY_NPM_TOKEN: ${{ secrets.ARTIFACTORY_TOKEN }}
+      ARTIFACTORY_TOKEN: ${{ secrets.ARTIFACTORY_TOKEN }}
       DEFAULT_KEYWORDS: ${{ secrets.DEFAULT_KEYWORDS }} # Store this as a secret in GitHub
       VERSION: ${{ github.sha }} # Use the first 7 characters of the commit SHA
 
@@ -41,10 +41,14 @@ jobs:
       - name: Add keywords and publish
         run: |
           # Ensure the npm registry is set for publishing
-          npm config set //artifactory.cimpress.io/artifactory/api/npm/npm-release-local/:_authToken=${secrets.ARTIFACTORY_TOKEN}
-          npm config set @cimpress-technology:registry https://artifactory.cimpress.io/artifactory/api/npm/npm-release-local/
+          npm config set "//artifactory.cimpress.io/artifactory/api/npm/npm-release-local/:_authToken" "${{ secrets.ARTIFACTORY_TOKEN }}"
+          npm config set "@cimpress-technology:registry" "https://artifactory.cimpress.io/artifactory/api/npm/npm-release-local/"
+          
+          # Optionally delete the `scripts.prepare` to avoid issues with husky or other package hooks
           npm pkg delete scripts.prepare
+          
           # Publish the package to Artifactory explicitly
-          npm publish --registry https://artifactory.cimpress.io/artifactory/api/npm/npm-release-local/
+          npm publish --registry "https://artifactory.cimpress.io/artifactory/api/npm/npm-release-local/"
         env:
           DEFAULT_KEYWORDS: ${{ secrets.DEFAULT_KEYWORDS }}
+
