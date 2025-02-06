@@ -25,6 +25,12 @@ jobs:
         with:
           node-version: '22'  # Change to the Node.js version you need
 
+      # Necessary to get Cimpress packages during npm install
+      - name: Configure npm registry
+        run: |
+          echo "@cimpress-technology:registry=https://artifactory.cimpress.io/artifactory/api/npm/npm-release-local/" > ~/.npmrc
+          echo "//artifactory.cimpress.io/artifactory/api/npm/npm-release-local/:_authToken=${{ secrets.ARTIFACTORY_TOKEN }}" >> ~/.npmrc
+
       # Uses commit hash to set the version
       - name: Install version bumper and bump version
         run: |
