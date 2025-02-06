@@ -25,11 +25,6 @@ jobs:
         with:
           node-version: '22'  # Change to the Node.js version you need
 
-      - name: Configure npm registry
-        run: |
-          echo "@cimpress-technology:registry=https://artifactory.cimpress.io/artifactory/api/npm/npm-release-local/" > ~/.npmrc
-          echo "//artifactory.cimpress.io/artifactory/api/npm/npm-release-local/:_authToken=${{ secrets.ARTIFACTORY_TOKEN }}" >> ~/.npmrc
-
       # Uses commit hash to set the version
       - name: Install version bumper and bump version
         run: |
@@ -40,7 +35,8 @@ jobs:
       - name: Add keywords and publish
         run: |
           # Ensure the npm registry is set for publishing
-          npm config set @cimpress-technology:registry=https://artifactory.cimpress.io/artifactory/api/npm/npm-release-local/
+          npm config set //artifactory.cimpress.io/artifactory/api/npm/npm-release-local/:_authToken=${ARTIFACTORY_TOKEN}
+          npm config set @cimpress-technology:registry https://artifactory.cimpress.io/artifactory/api/npm/npm-release-local/
           npm pkg delete scripts.prepare
           # Publish the package to Artifactory explicitly
           npm publish --registry https://artifactory.cimpress.io/artifactory/api/npm/npm-release-local/
