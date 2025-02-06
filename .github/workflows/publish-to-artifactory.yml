@@ -35,13 +35,13 @@ jobs:
       - name: Install version bumper and bump version
         run: |
           npm install @cimpress-technology/version-bumper -g
-          bump-version ${{ github.ref_name }}
+          bump-version
 
       # Set as a secret in Github
       - name: Add keywords and publish
         run: |
           # Ensure the npm registry is set for publishing
-          npm config set //artifactory.cimpress.io/artifactory/api/npm/npm-release-local/:_authToken=${ARTIFACTORY_TOKEN}
+          npm config set //artifactory.cimpress.io/artifactory/api/npm/npm-release-local/:_authToken=${secrets.ARTIFACTORY_TOKEN}
           npm config set @cimpress-technology:registry https://artifactory.cimpress.io/artifactory/api/npm/npm-release-local/
           npm pkg delete scripts.prepare
           # Publish the package to Artifactory explicitly
