@@ -1,0 +1,49 @@
+name: Publish to Artifactory
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'  # Run for all tags
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    env:
+      ARTIFACTORY_NPM_TOKEN: ${{ secrets.ARTIFACTORY_TOKEN }}
+      DEFAULT_KEYWORDS: ${{ secrets.DEFAULT_KEYWORDS }} # Store this as a secret in GitHub
+      VERSION: ${{ github.sha }} # Use the first 7 characters of the commit SHA
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'  # Change to the Node.js version you need
+
+      - name: Configure npm registry
+        run: |
+          echo "@cimpress-technology:registry=https://artifactory.cimpress.io/artifactory/api/npm/npm-release-local/" > ~/.npmrc
+          echo "//artifactory.cimpress.io/artifactory/api/npm/npm-release-local/:_authToken=${{ secrets.ARTIFACTORY_TOKEN }}" >> ~/.npmrc
+
+      # Uses commit hash to set the version
+      - name: Install version bumper and bump version
+        run: |
+          npm install @cimpress-technology/version-bumper -g
+          bump-version ${{ github.ref_name }}
+
+      # Set as a secret in Github
+      - name: Add keywords and publish
+        run: |
+          npm pkg delete scripts.prepare
+          npm publish
+        env:
+          DEFAULT_KEYWORDS: ${{ secrets.DEFAULT_KEYWORDS }}
+
+      - name: Upload version bump to artifactory
+        run: |
+          npm config set @cimpress-technology:registry=https://artifactory.cimpress.io/artifactory/api/npm/npm-release-local/
