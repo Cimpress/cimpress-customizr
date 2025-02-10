@@ -46,6 +46,9 @@ jobs:
           
           # Optionally delete the `scripts.prepare` to avoid issues with husky or other package hooks
           npm pkg delete scripts.prepare
+
+          # Build the package
+          npm run build
           
           # Publish the package to Artifactory explicitly
           npm publish --registry "https://artifactory.cimpress.io/artifactory/api/npm/npm-release-local/"
